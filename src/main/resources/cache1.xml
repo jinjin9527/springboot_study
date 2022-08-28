@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache https://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <cache:annotation-driven/>
+    <cache:advice id="cacheAdvice" cache-manager="cacheManager">
+        <cache:caching cache="books">
+            <cache:cacheable method="*" key-generator="customKeyGenerator"/>
+        </cache:caching>
+    </cache:advice>
+
+    <aop:config>
+        <aop:advisor advice-ref="cacheAdvice" pointcut="execution(* com.sylinx.springbootstudy.testcacheaop.CacheService1.*(..))"/>
+    </aop:config>
+</beans>
